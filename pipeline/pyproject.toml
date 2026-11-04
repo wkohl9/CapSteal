@@ -1,0 +1,15 @@
+[project]
+name = "capsteal-pipeline"
+version = "0.0.1"
+requires-python = ">=3.12"
+dependencies = [
+    "nflreadpy",
+    "polars",
+    "psycopg[binary]",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "jupyter"]
+
+[tool.setuptools]
+py-modules = []

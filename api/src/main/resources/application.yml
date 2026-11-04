@@ -1,0 +1,33 @@
+server:
+  # Render injects PORT; 8080 locally.
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: capsteal-api
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/capsteal}
+    username: ${SPRING_DATASOURCE_USERNAME:capsteal}
+    password: ${SPRING_DATASOURCE_PASSWORD:capsteal}
+    hikari:
+      # Keep the pool small: Neon free tier has limited connections.
+      maximum-pool-size: 5
+  flyway:
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+      cors:
+        allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+        allowed-methods: GET
+  endpoint:
+    health:
+      # Show the db component, so "API: ok" also proves Neon is reachable.
+      show-components: always
+
+capsteal:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}

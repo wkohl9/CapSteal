@@ -1,0 +1,21 @@
+# Render Blueprint: New > Blueprint, pick this repo. Auto-deploys on every push to main.
+services:
+  - type: web
+    name: capsteal-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./api/Dockerfile
+    dockerContext: .
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /actuator/health
+    envVars:
+      # Set these in the Render dashboard (sync: false keeps them out of git).
+      - key: SPRING_DATASOURCE_URL       # jdbc:postgresql://<neon-host>/<db>?sslmode=require
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS        # e.g. https://capsteal.vercel.app
+        sync: false
